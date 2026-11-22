@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sentinelflow-api
+  namespace: sentinelflow
+  labels:
+    app: sentinelflow-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sentinelflow-api
+  template:
+    metadata:
+      labels:
+        app: sentinelflow-api
+    spec:
+      containers:
+        - name: api
+          image: sentinelflow:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: sentinelflow-config
+            - secretRef:
+                name: sentinelflow-secrets
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
