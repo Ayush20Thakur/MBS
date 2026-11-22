@@ -1,4 +1,5 @@
 import time
+import inspect
 import asyncio
 from enum import Enum
 from typing import Callable, Any
@@ -48,7 +49,7 @@ class CircuitBreaker:
                     raise CircuitBreakerOpenError(self.name)
 
         try:
-            if asyncio.iscoroutinefunction(func):
+            if inspect.iscoroutinefunction(func):
                 result = await func(*args, **kwargs)
             else:
                 result = func(*args, **kwargs)
