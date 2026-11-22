@@ -6,7 +6,8 @@ def test_fraud_rule_model_instantiation():
         name="Test Velocity Limit",
         rule_type=RuleType.VELOCITY_COUNT,
         threshold=10.0,
-        action=RuleAction.FLAG
+        action=RuleAction.FLAG,
+        is_active=True
     )
     assert rule.name == "Test Velocity Limit"
     assert rule.action == RuleAction.FLAG
