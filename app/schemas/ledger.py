@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from app.models.ledger import EntryType
 
@@ -12,8 +12,7 @@ class LedgerEntryResponse(BaseModel):
     balance_after: float
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class LedgerBalanceAudit(BaseModel):
